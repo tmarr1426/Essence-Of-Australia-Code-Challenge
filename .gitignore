@@ -141,3 +141,21 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Node / React
+client/node_modules/
+client/dist/
+client/build/
+
+# PHP / Composer
+server/vendor/
+server/composer.lock   # optional — some teams commit this, some don't
+
+# Environment
+.env
+*.env.local
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
