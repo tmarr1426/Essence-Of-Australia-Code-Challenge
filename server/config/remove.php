@@ -1,7 +1,7 @@
 <?php
 // ============================================================
-// POST /api/games/add — add a game
-// Body (JSON): { "name": "Zelda" }
+// POST /api/games/remove — remove a game
+// Body (JSON): { "id": 5 }
 // ============================================================
 require_once __DIR__ . '/../config/config.php';
 apply_cors_headers();
@@ -11,11 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $input = json_decode(file_get_contents('php://input'), true);
-$name = trim($input['name'] ?? '');
+$id = $input['id'] ?? null;
 
-if ($name === '') {
-    json_response(['error' => 'name is required'], 422);
+if (!$id || !ctype_digit((string)$id)) {
+    json_response(['error' => 'A valid numeric id is required'], 422);
 }
 
-$result = call_game_api('/games/add', ['name' => $name]);
-json_response($result, 201);
+$result = call_game_api('/games/remove', ['id' => (int)$id]);
+json_response($result);
