@@ -1,21 +1,18 @@
 <?php
-// ============================================================
-// config.php — DB connection + external API credentials
-// ============================================================
-// Never hardcode secrets here. Set these as actual environment
-// variables on your server (e.g. in your Apache/Nginx vhost,
-// a .env loaded via putenv(), or your hosting panel's env settings).
-// ============================================================
+require_once __DIR__ . '/../../vendor/autoload.php'; // adjust path if vendor/ lives elsewhere
 
-// ---- Database ----
+use Dotenv\Dotenv;
+
+// server/api/config/ -> up 3 levels to Essence-Of-Australia/ (project root)
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../../');
+$dotenv->load();
+
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_NAME', getenv('DB_NAME') ?: 'game_voting_app');
 define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: '');
-
-// ---- External game data API ----
 define('GAME_API_KEY', getenv('GAME_API_KEY') ?: '');
-define('GAME_API_BASE_URL', getenv('GAME_API_BASE_URL') ?: ''); // e.g. https://api.example.com/v1
+define('GAME_API_BASE_URL', getenv('GAME_API_BASE_URL') ?: '');
 
 function get_db_connection(): PDO {
     static $pdo = null;
@@ -29,7 +26,6 @@ function get_db_connection(): PDO {
     return $pdo;
 }
 
-// ---- Shared JSON response helper ----
 function json_response(array $data, int $status = 200): void {
     http_response_code($status);
     header('Content-Type: application/json');
@@ -37,9 +33,8 @@ function json_response(array $data, int $status = 200): void {
     exit;
 }
 
-// ---- Shared CORS headers (adjust origin for production) ----
 function apply_cors_headers(): void {
-    header('Access-Control-Allow-Origin: http://localhost:5173'); // your Vite dev server
+    header('Access-Control-Allow-Origin: http://localhost:5173');
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
     header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
