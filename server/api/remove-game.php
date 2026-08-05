@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once __DIR__ . "/../config/cors.php";
 require_once __DIR__ . "/../services/GameService.php";
 
@@ -17,7 +20,7 @@ if (!isset($data["id"])) {
     http_response_code(400);
 
     echo json_encode([
-        "error" => "Game ID is required"
+        "error" => "Game ID required"
     ]);
 
     exit;
@@ -25,24 +28,12 @@ if (!isset($data["id"])) {
 }
 
 
-try {
-
-    $service = new GameService();
-
-    $result = $service->vote(
-        (int)$data["id"]
-    );
+$service = new GameService();
 
 
-    echo json_encode($result);
+$result = $service->removeGame(
+    (int)$data["id"]
+);
 
 
-} catch (Exception $e) {
-
-    http_response_code(500);
-
-    echo json_encode([
-        "error" => $e->getMessage()
-    ]);
-
-}
+echo json_encode($result);

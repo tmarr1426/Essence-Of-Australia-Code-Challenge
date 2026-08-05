@@ -40,13 +40,24 @@ class GameService
     }
 
 
-    public function vote(int $gameId)
+    public function vote(int $id)
     {
         return $this->client->post(
             "/games/vote",
             [
-                "gameId" => $gameId
+                "id" => $id
             ]
         );
     }
+
+    public function removeGame(int $id)
+    {
+        return $this->client->post(
+            "/games/remove",
+            [
+                "id" => $id
+            ]
+        );
+    }
+
 }

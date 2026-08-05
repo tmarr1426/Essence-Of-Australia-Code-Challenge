@@ -22,3 +22,28 @@ export const addGame = async (name: string) => {
 
     return response.data;
 };
+
+export const removeGame = async (id: number) => {
+
+    const response = await api.post(
+        "/remove-game.php",
+        {
+            id
+        }
+    );
+
+    return response.data
+}
+
+export const searchGames = async (query: string) => {
+
+    const response = await api.post(
+        "/search-game.php",
+        {
+            query
+        }
+    );
+
+    return response.data;
+
+};
