@@ -18,8 +18,8 @@ export default function GameCard({ game, onVote, onRemove }: Props) {
     items-center 
     border-2 
     rounded-md 
-    m-5 
-    max-w-xs 
+    m-2 
+    max-w-xs
     bg-green-100">
 
             <h2 className="items-center">
@@ -35,6 +35,7 @@ export default function GameCard({ game, onVote, onRemove }: Props) {
     bg-white
     shadow-md
     p-6
+    m-2
     border
     border-gray-200" onClick={() => onVote(game.id)}>
     {game.userVoted

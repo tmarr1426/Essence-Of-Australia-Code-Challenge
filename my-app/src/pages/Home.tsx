@@ -8,7 +8,7 @@ export default function Home() {
 
         <main>
 
-            <h1 className="text-4xl font-bold text-blue-600 flex justify-center">
+            <h1 className="text-7xl font-mono font-bold text-blue-900 flex justify-center">
                 Game Voting App
             </h1>
 

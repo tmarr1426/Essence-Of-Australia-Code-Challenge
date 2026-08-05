@@ -59,10 +59,13 @@ export default function RegisterForm() {
 
 
     return (
-
-        <form onSubmit={handleSubmit}>
+<div className="min-h-screen flex items-center justify-center">
+        <form 
+        className="grid-cols-2 bg-green-100 border border-black-200 shadow p-4 "
+        onSubmit={handleSubmit}>
 
             <input
+            className="border border-black-200 m-2"
                 type="text"
                 placeholder="Username"
                 value={username}
@@ -73,6 +76,7 @@ export default function RegisterForm() {
 
 
             <input
+            className="border border-black-200 m-2"
                 type="email"
                 placeholder="Email"
                 value={email}
@@ -83,6 +87,7 @@ export default function RegisterForm() {
 
 
             <input
+            className="border border-black-200 m-2"
                 type="password"
                 placeholder="Password"
                 value={password}
@@ -96,7 +101,7 @@ export default function RegisterForm() {
             className="rounded-xl
     bg-white
     shadow-md
-    p-6
+    p-4
     border
     border-gray-200"
             type="submit">
@@ -107,7 +112,7 @@ export default function RegisterForm() {
             {error && <p>{error}</p>}
 
         </form>
-
+                </div>
     );
 
 }

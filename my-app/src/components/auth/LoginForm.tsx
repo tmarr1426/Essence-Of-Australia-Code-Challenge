@@ -45,9 +45,12 @@ export default function LoginForm() {
 
     return (
 
-        <form onSubmit={handleSubmit}>
+        <form
+        className="grid-cols-2 bg-green-100 border border-black-200 shadow" 
+        onSubmit={handleSubmit}>
 
             <input
+            className="border border-black-200 m-2"
                 type="email"
                 placeholder="Email"
                 value={email}
@@ -55,18 +58,29 @@ export default function LoginForm() {
             />
 
             <input
+            className="border border-black-200 m-2"
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button type="submit">
+            <button 
+            className="rounded-xl
+    bg-white
+    shadow-md
+    p-2
+    border
+    border-gray-200
+    flex
+    justify-center"
+            type="submit">
                 Login
             </button>
-            <p>
+            <p className="m-5">
     Don't have an account?
-    <Link to="/register">
+    <Link to="/register"
+    className="text-blue-600">
         Register
     </Link>
 </p>
