@@ -62,6 +62,13 @@ export default function AddGameForm({
         <form onSubmit={handleSubmit}>
 
             <input
+            className="rounded-xl
+    bg-white
+    shadow-md
+    p-6
+    border
+    border-gray-200
+    m-5"
                 type="text"
                 placeholder="Game title"
                 value={name}
@@ -71,7 +78,14 @@ export default function AddGameForm({
             />
 
 
-            <button disabled={loading}>
+            <button className="rounded-xl
+    bg-white
+    shadow-md
+    p-6
+    border
+    border-gray-200
+    m-5"
+    disabled={loading}>
 
                 {loading
                     ? "Adding..."

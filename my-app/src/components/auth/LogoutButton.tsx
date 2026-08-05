@@ -20,7 +20,16 @@ export default function LogoutButton() {
 
     return (
 
-        <button onClick={handleLogout}>
+        <button 
+        className="rounded-xl
+    bg-white
+    shadow-md
+    p-6
+    border
+    border-gray-200
+    flex
+    justify-center"
+        onClick={handleLogout}>
             Logout
         </button>
 

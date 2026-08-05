@@ -12,9 +12,17 @@ interface Props {
 export default function GameCard({ game, onVote, onRemove }: Props) {
 
     return (
-        <div className="game-card">
+        <div className="game-card h-full
+    shadow-md
+    p-6
+    items-center 
+    border-2 
+    rounded-md 
+    m-5 
+    max-w-xs 
+    bg-green-100">
 
-            <h2>
+            <h2 className="items-center">
                 {game.title}
             </h2>
 
@@ -22,13 +30,27 @@ export default function GameCard({ game, onVote, onRemove }: Props) {
                 Votes: {game.vote_count}
             </p>
 
-            <button onClick={() => onVote(game.id)}>
+            <button className="
+    rounded-xl
+    bg-white
+    shadow-md
+    p-6
+    border
+    border-gray-200" onClick={() => onVote(game.id)}>
     {game.userVoted
         ? "Remove Vote"
         : "Vote"
     }
 </button>
             <button
+            className="
+    rounded-xl
+    bg-white
+    shadow-md
+    p-6
+    border
+    border-gray-200"
+    
     onClick={() => {
         console.log("Removing game:", game.id);
         onRemove(game.id);

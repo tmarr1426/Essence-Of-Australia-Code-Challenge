@@ -92,7 +92,14 @@ export default function RegisterForm() {
             />
 
 
-            <button type="submit">
+            <button 
+            className="rounded-xl
+    bg-white
+    shadow-md
+    p-6
+    border
+    border-gray-200"
+            type="submit">
                 Register
             </button>
 

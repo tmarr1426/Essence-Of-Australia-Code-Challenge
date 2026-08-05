@@ -32,6 +32,13 @@ export default function SearchGames({
         <form onSubmit={handleSubmit}>
 
             <input
+            className="rounded-xl
+    bg-white
+    shadow-md
+    p-6
+    border
+    border-gray-200
+    m-5"
                 value={query}
                 onChange={(e) =>
                     setQuery(e.target.value)
@@ -40,7 +47,13 @@ export default function SearchGames({
             />
 
 
-            <button type="submit">
+            <button className="rounded-xl
+    bg-white
+    shadow-md
+    p-6
+    border
+    border-gray-200"
+     type="submit">
                 Search
             </button>
 
