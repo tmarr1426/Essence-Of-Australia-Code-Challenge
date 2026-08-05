@@ -3,10 +3,10 @@
 define("API_BASE_URL", "https://codechallenge.essensedesigns.info");
 define("API_KEY", "126d42690aa6d0589c73b5200d809b99");
 
-define("DB_HOST", "localhost");
+define("DB_HOST", "mysql");
 define("DB_NAME", "GameVoteApp");
-define("DB_USER", "game_app");
-define("DB_PASSWORD", "Kickflip1026!#");
+define("DB_USER", "appuser");
+define("DB_PASSWORD", "password");
 
 
 function getDatabaseConnection()

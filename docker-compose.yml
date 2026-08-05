@@ -1,0 +1,42 @@
+services:
+
+  frontend:
+    build:
+      context: ./client
+    container_name: game-voting-client
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+
+  backend:
+    build:
+      context: ./server
+    container_name: game-voting-server
+    ports:
+      - "8000:80"
+    depends_on:
+      - mysql
+
+
+  mysql:
+    image: mysql:8.0
+    container_name: game-voting-mysql
+
+    environment:
+      MYSQL_DATABASE: gamevoteapp
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+volumes:
+  mysql_data:
