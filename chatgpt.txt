@@ -1,0 +1,659 @@
+Yes. Since your login flow is now set up, registration is the natural next step. The good news is your architecture already supports it because you created:
+
+authApi.ts
+AuthService.ts
+AuthContext.tsx
+
+We just need to add:
+
+Register API call (already partially created)
+Register page/component
+Route
+Automatically log the user in after registration
+Step 1: Verify your authApi.ts
+
+You should have something like:
+
+import api from "./api";
+
+export async function register(
+    username: string,
+    email: string,
+    password: string
+) {
+
+    const response = await api.post(
+        "/register.php",
+        {
+            username,
+            email,
+            password
+        }
+    );
+
+    return response.data;
+}
+
+Your PHP endpoint should receive:
+
+{
+    "username": "player1",
+    "email": "player1@test.com",
+    "password": "password123"
+}
+Step 2: Update AuthService.ts
+
+Add the register function:
+
+import * as authApi from "../api/authApi";
+import type { User } from "../types/User";
+
+
+export async function login(
+    email: string,
+    password: string
+): Promise<User> {
+
+    return await authApi.login(
+        email,
+        password
+    );
+
+}
+
+
+export async function register(
+    username: string,
+    email: string,
+    password: string
+): Promise<User> {
+
+    return await authApi.register(
+        username,
+        email,
+        password
+    );
+
+}
+Step 3: Create RegisterForm.tsx
+
+Create:
+
+src/components/auth/RegisterForm.tsx
+import { useState } from "react";
+import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+
+import * as AuthService from "../../services/AuthService";
+import { useAuth } from "../../hooks/useAuth";
+
+
+export default function RegisterForm() {
+
+    const [username, setUsername] = useState("");
+
+    const [email, setEmail] = useState("");
+
+    const [password, setPassword] = useState("");
+
+    const [error, setError] = useState("");
+
+
+    const { login: loginUser } = useAuth();
+
+    const navigate = useNavigate();
+
+
+
+    const handleSubmit = async (
+        e: FormEvent<HTMLFormElement>
+    ) => {
+
+        e.preventDefault();
+
+
+        try {
+
+            const user = await AuthService.register(
+                username,
+                email,
+                password
+            );
+
+
+            loginUser(user);
+
+
+            navigate("/");
+
+
+        } catch (err) {
+
+            console.error(err);
+
+            setError(
+                "Unable to create account."
+            );
+
+        }
+
+    };
+
+
+    return (
+
+        <form onSubmit={handleSubmit}>
+
+            <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) =>
+                    setUsername(e.target.value)
+                }
+            />
+
+
+            <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) =>
+                    setEmail(e.target.value)
+                }
+            />
+
+
+            <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) =>
+                    setPassword(e.target.value)
+                }
+            />
+
+
+            <button type="submit">
+                Register
+            </button>
+
+
+            {error && <p>{error}</p>}
+
+        </form>
+
+    );
+
+}
+Step 4: Create Register page
+
+Create:
+
+src/pages/Register.tsx
+import RegisterForm from "../components/auth/RegisterForm";
+
+
+export default function Register() {
+
+    return (
+
+        <div>
+
+            <h1>Create Account</h1>
+
+            <RegisterForm />
+
+        </div>
+
+    );
+
+}
+Step 5: Add the route
+
+Update App.tsx:
+
+import Register from "./pages/Register";
+
+Add:
+
+<Route
+    path="/register"
+    element={<Register />}
+/>
+
+Your routes now:
+
+<Routes>
+
+    <Route
+        path="/login"
+        element={<Login />}
+    />
+
+    <Route
+        path="/register"
+        element={<Register />}
+    />
+
+    <Route
+        path="/"
+        element={
+            <ProtectedRoute>
+                <Home />
+            </ProtectedRoute>
+        }
+    />
+
+</Routes>
+Step 6: Add a link from Login → Register
+
+In LoginForm.tsx:
+
+import { Link } from "react-router-dom";
+
+Then below your button:
+
+<p>
+    Don't have an account?
+    <Link to="/register">
+        Register
+    </Link>
+</p>
+Step 7: Test flow
+
+You should now have:
+
+/register
+      |
+      v
+register.php
+      |
+      v
+MySQL users table
+      |
+      v
+returns user
+      |
+      v
+AuthContext saves user
+      |
+      v
+redirect to /
+
+One thing to verify before testing: what does your PHP register.php return after creating a user?
+
+Your frontend currently expects:
+
+{
+    "id": 1,
+    "username": "player1",
+    "email": "player1@test.com"
+}
+
+If your PHP returns:
+
+{
+    "success": true,
+    "message": "User created"
+}
+
+then registration will succeed in MySQL but fail on the React side because there is no user object to store.
+
+If you paste your register.php or UserService::register() method, I can make sure the response matches your frontend.
+
+Looking at this games.sql, this file is actually correct. The line:
+
+/*!40000 ALTER TABLE `games` ENABLE KEYS */;
+
+is not a problem. It is valid MySQL syntax.
+
+The important clue is this:
+
+"it looks like it should be reading as a comment but that line and everything under it is reading as a value"
+
+That sounds like your SQL editor is treating the file as plain text, not that the SQL itself is wrong.
+
+A few things to check:
+
+1. Are you viewing this in MySQL Workbench?
+
+If yes, check the bottom-right corner of the SQL editor.
+
+It should say something like:
+
+SQL
+
+or have MySQL syntax highlighting.
+
+If it says:
+
+Plain Text
+
+then Workbench is not parsing it.
+
+Try:
+
+File → Open SQL Script
+
+and reopen the .sql file.
+
+2. If this is from Docker/MySQL, the file is okay
+
+The MySQL Docker image will correctly interpret:
+
+/*!40000 ALTER TABLE `games` ENABLE KEYS */;
+
+as:
+
+ALTER TABLE `games` ENABLE KEYS;
+
+The /*! ... */ syntax is a MySQL feature.
+
+3. The real issue is likely when combining the files
+
+Your individual files:
+
+users.sql
+games.sql
+votes.sql
+user_actions.sql
+
+are fine.
+
+The issue happened when you merged them into:
+
+database/schema.sql
+
+because each file contains:
+
+DROP TABLE IF EXISTS ...
+
+and:
+
+SET FOREIGN_KEY_CHECKS=0
+
+multiple times.
+
+That can cause problems.
+
+Best approach
+
+Instead of manually combining these dumps, I would create a clean schema.sql.
+
+Start with:
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+Then copy only these sections:
+
+From users.sql:
+
+CREATE TABLE `users`
+...
+INSERT INTO `users`
+...
+
+From games.sql:
+
+CREATE TABLE `games`
+...
+INSERT INTO `games`
+...
+
+From votes.sql:
+
+CREATE TABLE `votes`
+...
+INSERT INTO `votes`
+...
+
+From user_actions.sql:
+
+CREATE TABLE `user_actions`
+...
+INSERT INTO `user_actions`
+...
+
+Finish with:
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+Your final file should not contain repeated blocks like:
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT...
+
+or:
+
+-- Dump completed on...
+
+Those are only for a standalone MySQL export.
+
+One more thing I noticed
+
+Your games.sql has:
+
+INSERT INTO `games` VALUES (...,-1,...)
+
+for this row:
+
+(8,'Something',NULL,NULL,-1,'2026-08-05 13:39:34'...)
+
+Your vote_count should probably never be -1.
+
+That likely came from your vote removal testing.
+
+I would change it to:
+
+(8,'Something',NULL,NULL,0,'2026-08-05 13:39:34'...)
+
+before putting it into your Docker seed data.
+
+Honestly, your individual dump files are good. I would not fight the Workbench export. I would clean them into one Docker-friendly schema file.
+
+If you paste your current combined schema.sql around where the issue starts (around line 96), I can help you clean it without rebuilding the whole thing manually.
+
+This line is giving me an error before 3, Baldur's Gate with tthe parenthesis but it is not giving me info as to what the error is
+
+
+INSERT INTO games VALUES (1,'Zelda',NULL,NULL,0,'2026-08-05 12:58:27','2026-08-05 12:58:27',NULL),(3,'Baldur\'s Gate 3',NULL,NULL,0,'2026-08-05 13:28:23','2026-08-05 13:28:23',NULL),(4,'Mario',NULL,NULL,0,'2026-08-05 13:30:39','2026-08-05 13:30:39',NULL),(5,'Mario 2',NULL,NULL,0,'2026-08-05 13:32:54','2026-08-05 13:32:54',NULL),(6,'World of Warcraft',NULL,NULL,0,'2026-08-05 13:35:30','2026-08-05 13:35:30',NULL),(7,'League of Legends',NULL,NULL,0,'2026-08-05 13:37:39','2026-08-05 13:37:39',NULL),(8,'Something',NULL,NULL,0,'2026-08-05 13:39:34','2026-08-05 16:08:23',NULL);
+
+The issue is most likely this part:
+
+'Baldur\'s Gate 3'
+
+The dump is using a backslash escape, which MySQL supports by default, but some SQL editors/parsers (and some Docker initialization situations depending on SQL mode) can have issues with it.
+
+The safer format is to use two single quotes instead:
+
+'Baldur''s Gate 3'
+
+So change:
+
+(3,'Baldur\'s Gate 3',NULL,NULL,0,'2026-08-05 13:28:23','2026-08-05 13:28:23',NULL)
+
+to:
+
+(3,'Baldur''s Gate 3',NULL,NULL,0,'2026-08-05 13:28:23','2026-08-05 13:28:23',NULL)
+
+However, I noticed something else important.
+
+Your table definition is:
+
+CREATE TABLE `games` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text,
+  `image_url` varchar(500) DEFAULT NULL,
+  `vote_count` int NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+That means your insert has 8 values, which matches:
+
+id
+title
+description
+image_url
+vote_count
+created_at
+updated_at
+user_id
+
+So the number of values is correct.
+
+I would actually rewrite the insert to be clearer and safer:
+
+INSERT INTO `games`
+(
+    id,
+    title,
+    description,
+    image_url,
+    vote_count,
+    created_at,
+    updated_at,
+    user_id
+)
+VALUES
+(1,'Zelda',NULL,NULL,0,'2026-08-05 12:58:27','2026-08-05 12:58:27',NULL),
+(3,'Baldur''s Gate 3',NULL,NULL,0,'2026-08-05 13:28:23','2026-08-05 13:28:23',NULL),
+(4,'Mario',NULL,NULL,0,'2026-08-05 13:30:39','2026-08-05 13:30:39',NULL),
+(5,'Mario 2',NULL,NULL,0,'2026-08-05 13:32:54','2026-08-05 13:32:54',NULL),
+(6,'World of Warcraft',NULL,NULL,0,'2026-08-05 13:35:30','2026-08-05 13:35:30',NULL),
+(7,'League of Legends',NULL,NULL,0,'2026-08-05 13:37:39','2026-08-05 13:37:39',NULL),
+(8,'Something',NULL,NULL,0,'2026-08-05 13:39:34','2026-08-05 16:08:23',NULL);
+
+This also makes future debugging much easier.
+
+One other thing: since this is going into Docker initialization, after changing schema.sql, remember to reset the volume:
+
+docker compose down -v
+docker compose up --build
+
+The -v is important because MySQL only runs /docker-entrypoint-initdb.d/init.sql when the database volume is empty. If the old volume exists, your corrected SQL will not rerun.
+
+My old Schema has this at the top
+
+CREATE DATABASE IF NOT EXISTS GameVoteApp;
+USE GameVoteApp;
+
+Should my new schema have this as well? should it be lowercase?
+
+Good question. Since you are now using Docker Compose with:
+
+mysql:
+  environment:
+    MYSQL_DATABASE: gamevoteapp
+
+you do not need this anymore:
+
+CREATE DATABASE IF NOT EXISTS GameVoteApp;
+USE GameVoteApp;
+
+The MySQL Docker image creates the database automatically during initialization.
+
+What your Docker setup is doing
+
+When MySQL starts for the first time, this:
+
+MYSQL_DATABASE: gamevoteapp
+
+is equivalent to running:
+
+CREATE DATABASE gamevoteapp;
+
+before it executes:
+
+./database/schema.sql:/docker-entrypoint-initdb.d/init.sql
+
+Your schema.sql is executed inside that database context.
+
+Your schema should start like this instead
+
+I would make the top of schema.sql:
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+Then:
+
+CREATE TABLE `users` (
+...
+);
+
+Then:
+
+CREATE TABLE `games` (
+...
+);
+
+etc.
+
+Should it be lowercase?
+
+Yes, I recommend lowercase:
+
+gamevoteapp
+
+not:
+
+GameVoteApp
+
+Reason:
+
+Windows MySQL is usually case-insensitive
+Linux MySQL containers can be case-sensitive depending on configuration
+Docker reviewers may run this on Linux
+
+Keeping everything lowercase avoids headaches.
+
+So make these match:
+
+docker-compose.yml
+mysql:
+  environment:
+    MYSQL_DATABASE: gamevoteapp
+config.php
+define("DB_NAME", "gamevoteapp");
+schema.sql
+
+Do not include:
+
+CREATE DATABASE GameVoteApp;
+USE GameVoteApp;
+One important thing
+
+Your dump header currently says:
+
+-- Host: 127.0.0.1    Database: gamevoteapp
+
+That is just informational. It does not actually create or select the database.
+
+You can leave those comments or remove them.
+
+For your challenge submission, the ideal flow is:
+
+Reviewer runs:
+
+docker compose up --build
+
+Docker does:
+
+Create MySQL container
+Create database gamevoteapp
+Create user appuser
+Run schema.sql
+Start PHP backend
+Start React frontend
+
+No manual database setup required.
+
+One last recommendation before you test again: after changing schema.sql, always run:
+
+docker compose down -v
+docker compose up --build
+
+The -v deletes the old MySQL volume. Otherwise MySQL sees an existing database and will skip running your schema.sql entirely.
