@@ -17,14 +17,19 @@ export async function voteForGame(
     return response.data;
 }
 
-export const removeVote = async (id: number) => {
+export const removeVote = async (
+    gameId: number,
+    userId: number
+) => {
+
     const response = await api.post(
         "/remove-vote.php",
         {
-            id
+            gameId,
+            userId
         }
     );
-    
+
     return response.data;
 
-}
+};

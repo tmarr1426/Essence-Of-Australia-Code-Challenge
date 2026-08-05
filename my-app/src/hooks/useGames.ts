@@ -22,8 +22,7 @@ export function useGames() {
             setLoading(true);
 
             const data = await fetchGames(user?.id ?? 0);
-            // console.log("Games response:", data);
-            // console.log("Is array?", Array.isArray(data));
+
             user ? user.id: 0
 
             console.log("Hook data:", data);
@@ -79,52 +78,65 @@ setError(
     async function voteOnGame(gameId: number) {
 
     try {
-        
+
         if (!user) {
             throw new Error("User is not logged in");
         }
 
-        if (selectedVote === gameId) {
-            return;
+
+        const game = games.find(
+            game => game.id === gameId
+        );
+
+
+        if (!game) {
+            throw new Error("Game not found");
         }
 
 
-        if (selectedVote !== null) {
+        if (game.userVoted) {
 
-            await deleteVote(selectedVote);
+            await deleteVote(
+                gameId,
+                user.id
+            );
+
+        } else {
+
+            await castVote(
+                gameId,
+                user.id
+            );
 
         }
-
-
-        await castVote(gameId, user.id);
-
-
-        setSelectedVote(gameId);
 
 
         await loadGames();
 
 
-    } catch(err:any){
+    } catch(err: any) {
 
-    if(err.response?.status === 429){
-
-        setError(
-            err.response.data.error
+        console.error(
+            "Vote error:",
+            err
         );
 
+
+        if (err.response?.status === 429) {
+
+            setError(
+                err.response.data.error
+            );
+
+        } else {
+
+            setError(
+                "Something went wrong"
+            );
+
+        }
+
     }
-    else {
-
-        console.error("Backend error:", err.response?.data || err);
-
-setError(
-    err.response?.data?.error || "Something went wrong"
-);
-
-    }
-
-}
 
 }
 

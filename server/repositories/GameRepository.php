@@ -145,4 +145,42 @@ class GameRepository
 
 }
 
+public function removeVote(
+    int $gameId,
+    int $userId
+): void {
+
+    $stmt = $this->db->prepare(
+        "
+        DELETE FROM votes
+        WHERE game_id = ?
+        AND user_id = ?
+        "
+    );
+
+    $stmt->execute([
+        $gameId,
+        $userId
+    ]);
+
+}
+
+public function decrementVoteCount(
+    int $gameId
+): void {
+
+    $stmt = $this->db->prepare(
+        "
+        UPDATE games
+        SET vote_count = vote_count - 1
+        WHERE id = ?
+        "
+    );
+
+    $stmt->execute([
+        $gameId
+    ]);
+
+}
+
 }

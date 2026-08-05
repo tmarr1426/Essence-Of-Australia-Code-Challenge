@@ -9,7 +9,7 @@ interface Props {
 }
 
 
-export default function GameCard({ game, onVote, selectedVote, onRemove }: Props) {
+export default function GameCard({ game, onVote, onRemove }: Props) {
 
     return (
         <div className="game-card">
@@ -22,12 +22,12 @@ export default function GameCard({ game, onVote, selectedVote, onRemove }: Props
                 Votes: {game.vote_count}
             </p>
 
-            <button onClick={() => onVote(game.id)}
-                disabled={game.userVoted}>
-                {selectedVote === game.id
-                ? "Voted"
-            : "Vote"}
-            </button>
+            <button onClick={() => onVote(game.id)}>
+    {game.userVoted
+        ? "Remove Vote"
+        : "Vote"
+    }
+</button>
             <button
     onClick={() => {
         console.log("Removing game:", game.id);

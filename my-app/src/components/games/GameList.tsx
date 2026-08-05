@@ -32,9 +32,6 @@ console.log("Search Results:", searchResults);
 
 const displayedGames =
 games;
-    // searchResults.length > 0
-    //     ? searchResults
-    //     : games;
 
     return (
 

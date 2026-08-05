@@ -1,12 +1,30 @@
-import { voteForGame, removeVote } from "../api/voteApi";
+import { 
+    voteForGame, 
+    removeVote as removeVoteApi 
+} from "../api/voteApi";
 
 
-export async function castVote(gameId: number, id: number) {
+export async function castVote(
+    gameId: number,
+    userId: number
+) {
 
-    await voteForGame(gameId, id);
+    await voteForGame(
+        gameId,
+        userId
+    );
 
 }
 
-export async function deleteVote(id:number) {
-    await removeVote(id);
+
+export async function deleteVote(
+    gameId: number,
+    userId: number
+) {
+
+    await removeVoteApi(
+        gameId,
+        userId
+    );
+
 }

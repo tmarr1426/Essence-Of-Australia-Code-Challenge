@@ -152,6 +152,29 @@ class GameService
 
 }
 
+public function removeVote(
+    int $gameId,
+    int $userId
+)
+{
+
+    $this->repository->removeVote(
+        $gameId,
+        $userId
+    );
+
+
+    $this->repository->decrementVoteCount(
+        $gameId
+    );
+
+
+    return [
+        "message" => "Vote removed"
+    ];
+
+}
+
 
 
     /**
