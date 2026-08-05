@@ -40,3 +40,4 @@ server/composer.lock   # optional — some teams commit this, some don't
 .DS_Store
 .vscode/
 .idea/
+
