@@ -27,10 +27,14 @@ export default function GameList() {
         return <p>{error}</p>;
     }
 
+    console.log("Games:", games);
+console.log("Search Results:", searchResults);
+
 const displayedGames =
-    searchResults.length > 0
-        ? searchResults
-        : games;
+games;
+    // searchResults.length > 0
+    //     ? searchResults
+    //     : games;
 
     return (
 
@@ -44,6 +48,7 @@ const displayedGames =
 <SearchGames
 onSearch={searchGameList}
 />
+
             {
                 displayedGames?.map(game => (
                     <GameCard

@@ -6,13 +6,13 @@ export async function fetchGames(): Promise<Game[]> {
 
     const response = await getGames();
 
-    return response.games;
+    return response;
 }
 
 
-export async function createGame(name: string): Promise<void> {
+export async function createGame(name: string, userId: number): Promise<void> {
 
-    await addGame(name);
+    await addGame(name, userId);
 
 }
 

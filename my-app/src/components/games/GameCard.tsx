@@ -15,7 +15,7 @@ export default function GameCard({ game, onVote, selectedVote, onRemove }: Props
         <div className="game-card">
 
             <h2>
-                {game.name}
+                {game.title}
             </h2>
 
             <p>

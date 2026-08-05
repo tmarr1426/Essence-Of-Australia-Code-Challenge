@@ -1,27 +1,30 @@
 import api from "./api";
-import type { GamesResponse } from "../types/Game";
+import type { Game } from "../types/Game";
 
 
-export const getGames = async (): Promise<GamesResponse> => {
+export const getGames = async (): Promise<Game[]> => {
 
-    const response = await api.get<GamesResponse>(
+    const response = await api.get<Game[]>(
         "/games.php"
     );
 
     return response.data;
 };
 
-export const addGame = async (name: string) => {
+export async function addGame(
+    name: string,
+    userId: number
+) {
 
-    const response = await api.post(
+    return await api.post(
         "/add-game.php",
         {
-            name
+            name,
+            user_id: userId
         }
     );
 
-    return response.data;
-};
+}
 
 export const removeGame = async (id: number) => {
 

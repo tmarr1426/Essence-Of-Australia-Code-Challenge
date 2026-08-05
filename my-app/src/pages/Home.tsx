@@ -1,4 +1,5 @@
 import GameList from "../components/games/GameList";
+import LogoutButton from "../components/auth/LogoutButton";
 
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
             </h1>
 
             <GameList />
+            <LogoutButton />
 
         </main>
 

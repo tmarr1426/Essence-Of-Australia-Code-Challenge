@@ -12,12 +12,24 @@ $data = json_decode(
 );
 
 
-if (!isset($data["id"])) {
+if (!isset($data["gameId"])) {
 
     http_response_code(400);
 
     echo json_encode([
-        "error" => "Game ID is required"
+        "error" => "Game ID required"
+    ]);
+
+    exit;
+
+}
+
+if (!isset($data["userId"])) {
+
+    http_response_code(400);
+
+    echo json_encode([
+        "error" => "User ID required"
     ]);
 
     exit;
@@ -29,15 +41,17 @@ try {
 
     $service = new GameService();
 
+
     $result = $service->vote(
-        (int)$data["id"]
+        $data["gameId"],
+        $data["userId"]
     );
 
 
     echo json_encode($result);
 
 
-} catch (Exception $e) {
+} catch (Throwable $e) {
 
     http_response_code(500);
 

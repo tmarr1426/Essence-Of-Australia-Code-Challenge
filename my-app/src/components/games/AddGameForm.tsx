@@ -1,14 +1,21 @@
-import { FormEvent, useState } from "react";
+import type { FormEvent } from "react";
+import { useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
 
 
 interface Props {
-    onAddGame: (name: string) => Promise<void>;
+    onAddGame: (
+        name: string,
+        userId: number
+    ) => Promise<void>;
 }
 
 
 export default function AddGameForm({
     onAddGame
 }: Props) {
+
+    const { user } = useAuth();
 
     const [name, setName] = useState("");
 
@@ -22,7 +29,7 @@ export default function AddGameForm({
         event.preventDefault();
 
 
-        if (!name.trim()) {
+        if (!name.trim() || !user) {
             return;
         }
 
@@ -31,9 +38,15 @@ export default function AddGameForm({
 
             setLoading(true);
 
-            await onAddGame(name);
+
+            await onAddGame(
+                name,
+                user.id
+            );
+
 
             setName("");
+
 
         } finally {
 

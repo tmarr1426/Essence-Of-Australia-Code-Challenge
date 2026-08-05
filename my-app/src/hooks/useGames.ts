@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Game } from "../types/Game";
 import { createGame, fetchGames, deleteGame, findGames } from "../services/GameService";
 import { castVote, deleteVote } from "../services/VoteService";
+import { useAuth } from "./useAuth";
 
 
 export function useGames() {
@@ -11,6 +12,7 @@ export function useGames() {
     const [error, setError] = useState<string | null>(null);
     const [selectedVote, setSelectedVote] = useState<number | null>(null);
     const [searchResults, setSearchResults] = useState<Game[]>([]);
+    const { user } = useAuth;
 
 
     async function loadGames() {
@@ -40,28 +42,44 @@ export function useGames() {
     }
 
 
-    async function addNewGame(name: string) {
+    async function addNewGame(name: string, userId: number) {
 
         try {
 
-            await createGame(name);
+            await createGame(name, userId);
 
             // Refresh the game list after adding
             await loadGames();
 
-        } catch (err) {
+        } catch (err:any){
 
-            console.error("Game add error:", err);
-            setError("Unable to add game");
+    if(err.response?.status === 429){
 
-        }
+        setError(
+            err.response.data.error
+        );
+
+    }
+    else {
+
+        setError(
+            "Something went wrong"
+        );
+
     }
 
-    async function voteOnGame(id: number) {
+}
+    }
+
+    async function voteOnGame(gameId: number) {
 
     try {
+        
+        if (!user) {
+            throw new Error("User is not logged in");
+        }
 
-        if (selectedVote === id) {
+        if (selectedVote === gameId) {
             return;
         }
 
@@ -73,21 +91,33 @@ export function useGames() {
         }
 
 
-        await castVote(id);
+        await castVote(gameId, user.id);
 
 
-        setSelectedVote(id);
+        setSelectedVote(gameId);
 
 
         await loadGames();
 
 
-    } catch(err) {
+    } catch(err:any){
 
-        console.error("Vote error:", err);
-        setError("Unable to update vote");
+    if(err.response?.status === 429){
+
+        setError(
+            err.response.data.error
+        );
 
     }
+    else {
+
+        setError(
+            "Something went wrong"
+        );
+
+    }
+
+}
 
 }
 
