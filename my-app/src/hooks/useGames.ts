@@ -10,7 +10,7 @@ export function useGames() {
     const [games, setGames] = useState<Game[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [selectedVote, setSelectedVote] = useState<number | null>(null);
+    const [selectedVote] = useState<number | null>(null);
     const [searchResults, setSearchResults] = useState<Game[]>([]);
     const { user } = useAuth();
 
