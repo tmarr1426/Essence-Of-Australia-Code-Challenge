@@ -19,11 +19,11 @@ export default function GameCard({ game, onVote, selectedVote, onRemove }: Props
             </h2>
 
             <p>
-                Votes: {game.votes}
+                Votes: {game.vote_count}
             </p>
 
             <button onClick={() => onVote(game.id)}
-                disabled={selectedVote === game.id}>
+                disabled={game.userVoted}>
                 {selectedVote === game.id
                 ? "Voted"
             : "Vote"}

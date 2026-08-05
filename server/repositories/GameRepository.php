@@ -28,16 +28,67 @@ class GameRepository
     }
 
 
-    public function getGames()
-    {
-        $stmt = $this->db->query(
-            "SELECT *
-             FROM games
-             ORDER BY created_at DESC"
-        );
+    public function getGames(
+    ?int $userId = null
+)
+{
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $query = "
+        SELECT
+            games.id,
+            games.title,
+            games.user_id,
+
+            COUNT(votes.id) AS vote_count
+    ";
+
+
+    if ($userId !== null) {
+        $query .= ",
+            MAX(
+                CASE
+                    WHEN votes.user_id = ?
+                    THEN 1
+                    ELSE 0
+                END
+            ) AS userVoted
+        ";
     }
+
+
+    $query .= "
+        FROM games
+
+        LEFT JOIN votes
+        ON games.id = votes.game_id
+
+        GROUP BY games.id,
+        games.title,
+        games.user_id
+
+        ORDER BY vote_count DESC
+    ";
+
+
+    $stmt = $this->db->prepare($query);
+
+
+    if ($userId !== null) {
+
+        $stmt->execute([
+            $userId
+        ]);
+
+    } else {
+
+        $stmt->execute();
+
+    }
+
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
 
 
     public function searchGames(string $term)

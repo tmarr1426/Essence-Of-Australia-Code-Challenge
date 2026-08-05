@@ -1,7 +1,19 @@
 export interface Game {
+
     id: number;
+
     title: string;
-    votes: number;
+
+    description?: string;
+
+    image_url?: string;
+
+    vote_count: number;
+
+    user_id: number;
+
+    userVoted: boolean;
+
 }
 
 

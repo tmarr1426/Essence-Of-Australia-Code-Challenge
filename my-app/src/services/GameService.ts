@@ -1,28 +1,36 @@
 import { getGames, addGame, removeGame, searchGames } from "../api/gameApi";
 import type { Game } from "../types/Game";
 
+export async function fetchGames(
+    userId: number
+): Promise<Game[]> {
 
-export async function fetchGames(): Promise<Game[]> {
+    const response = await getGames(userId);
 
-    const response = await getGames();
-
-    return response;
+    return response.games;
 }
 
-
-export async function createGame(name: string, userId: number): Promise<void> {
+export async function createGame(
+    name: string,
+    userId: number
+): Promise<void> {
 
     await addGame(name, userId);
 
 }
 
-export async function deleteGame(id:number) : Promise<void> {
+export async function deleteGame(
+    id: number
+): Promise<void> {
 
     await removeGame(id);
 
 }
 
 export async function findGames(query: string) {
+
     const response = await searchGames(query);
+
     return response.games;
+
 }

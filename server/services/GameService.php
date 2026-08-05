@@ -81,10 +81,14 @@ class GameService
     /**
      * Get all games
      */
-    public function getGames()
-    {
-        return $this->repository->getGames();
-    }
+    public function getGames(
+    ?int $userId = null
+)
+{
+    return $this->repository->getGames(
+        $userId
+    );
+}
 
 
 

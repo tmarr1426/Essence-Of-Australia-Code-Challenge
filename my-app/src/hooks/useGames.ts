@@ -12,7 +12,7 @@ export function useGames() {
     const [error, setError] = useState<string | null>(null);
     const [selectedVote, setSelectedVote] = useState<number | null>(null);
     const [searchResults, setSearchResults] = useState<Game[]>([]);
-    const { user } = useAuth;
+    const { user } = useAuth();
 
 
     async function loadGames() {
@@ -21,7 +21,10 @@ export function useGames() {
 
             setLoading(true);
 
-            const data = await fetchGames();
+            const data = await fetchGames(user?.id ?? 0);
+            // console.log("Games response:", data);
+            // console.log("Is array?", Array.isArray(data));
+            user ? user.id: 0
 
             console.log("Hook data:", data);
 
@@ -62,9 +65,11 @@ export function useGames() {
     }
     else {
 
-        setError(
-            "Something went wrong"
-        );
+        console.error("Backend error:", err.response?.data || err);
+
+setError(
+    err.response?.data?.error || "Something went wrong"
+);
 
     }
 
@@ -111,9 +116,11 @@ export function useGames() {
     }
     else {
 
-        setError(
-            "Something went wrong"
-        );
+        console.error("Backend error:", err.response?.data || err);
+
+setError(
+    err.response?.data?.error || "Something went wrong"
+);
 
     }
 

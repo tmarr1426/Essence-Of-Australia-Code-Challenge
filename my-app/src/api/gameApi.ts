@@ -1,11 +1,16 @@
 import api from "./api";
-import type { Game } from "../types/Game";
+import type { GamesResponse } from "../types/Game";
 
 
-export const getGames = async (): Promise<Game[]> => {
+export const getGames = async (
+    userId: number
+): Promise<GamesResponse> => {
 
-    const response = await api.get<Game[]>(
-        "/games.php"
+    const response = await api.post<GamesResponse>(
+        "/games.php",
+        {
+            userId
+        }
     );
 
     return response.data;
