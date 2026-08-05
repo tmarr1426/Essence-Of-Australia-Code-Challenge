@@ -68,3 +68,41 @@ The application is built as a containerized full-stack application using React, 
 ---
 
 # Application Architecture
+
+Game Voting App
+
+├── client
+│ ├── React + TypeScript frontend
+│ ├── Components
+│ ├── Hooks
+│ ├── Services
+│ └── API communication
+│
+├── server
+│ ├── PHP REST API
+│ ├── Controllers
+│ ├── Services
+│ ├── Database connection
+│ └── Authentication logic
+│
+├── database
+│ └── schema.sql
+│
+└── docker-compose.yml
+
+
+---
+
+# Running the Application
+
+## Requirements
+
+Before running the application, install:
+
+- Docker Desktop
+- Docker Compose
+
+Verify Docker is running:
+
+```bash
+docker --version
