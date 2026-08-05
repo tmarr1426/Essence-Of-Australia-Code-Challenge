@@ -1,3 +1,21 @@
+/**
+ * SearchGames.tsx (src/components/SearchGames.tsx)
+ *
+ * Provides search functionality for filtering available games.
+ *
+ * Responsibilities:
+ * - Captures search input
+ * - Sends search queries to the parent component
+ * - Updates displayed game results
+ *
+ * Props:
+ * - onSearch: Callback function used to execute a game search
+ *
+ * Notes:
+ * - Search logic is handled outside this component
+ * - Component only manages user input
+ */
+
 import { useState } from "react";
 
 

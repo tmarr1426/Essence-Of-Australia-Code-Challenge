@@ -1,3 +1,18 @@
+<!-- /**
+ * Database.php (server/database/Database.php)
+ *
+ * Handles database connection management.
+ *
+ * Responsibilities:
+ * - Creates PDO database connections
+ * - Maintains reusable database connection instance
+ * - Configures PDO error handling
+ *
+ * Notes:
+ * - Uses singleton pattern to prevent unnecessary connections
+ * - Uses PDO prepared statements throughout application
+ */ -->
+
 <?php
 
 require_once __DIR__ . "/../config/config.php";

@@ -1,3 +1,25 @@
+/**
+ * GameService.ts (src/services/GameService.ts)
+ *
+ * Service layer responsible for game-related API operations.
+ *
+ * Responsibilities:
+ * - Retrieves games from the backend
+ * - Creates new games
+ * - Deletes games
+ * - Searches games
+ *
+ * Functions:
+ * - fetchGames()
+ * - createGame()
+ * - deleteGame()
+ * - findGames()
+ *
+ * Notes:
+ * - Separates API logic from React components
+ * - Provides reusable functions for game operations
+ */
+
 import { getGames, addGame, removeGame, searchGames } from "../api/gameApi";
 import type { Game } from "../types/Game";
 

@@ -1,3 +1,24 @@
+/**
+ * gameApi.ts (src/api/gameApi.ts)
+ *
+ * API client functions for game-related backend requests.
+ *
+ * Responsibilities:
+ * - Sends HTTP requests to PHP game endpoints
+ * - Handles API communication through Axios instance
+ * - Returns backend responses to service layer
+ *
+ * Endpoints:
+ * - Retrieve games
+ * - Add games
+ * - Remove games
+ * - Search games
+ *
+ * Notes:
+ * - Does not contain business logic
+ * - Only responsible for API communication
+ */
+
 import api from "./api";
 import type { GamesResponse } from "../types/Game";
 

@@ -1,3 +1,24 @@
+/**
+ * schema.sql (database/schema.sql)
+ *
+ * Database initialization script for Docker deployment.
+ *
+ * Responsibilities:
+ * - Creates application database tables
+ * - Defines relationships between tables
+ * - Inserts initial seed data
+ *
+ * Tables:
+ * - users
+ * - games
+ * - votes
+ * - user_actions
+ *
+ * Notes:
+ * - Automatically executed when MySQL container initializes
+ * - Requires a fresh database volume to rerun
+ */
+
 -- =========================================================
 -- Game Voting App — MySQL Schema
 -- One vote per user, site-wide, changeable at any time

@@ -1,3 +1,23 @@
+<!-- /**
+ * games.php (server/api/games.php)
+ *
+ * REST API endpoint responsible for game operations.
+ *
+ * Responsibilities:
+ * - Retrieves available games
+ * - Creates new games
+ * - Handles game-related requests
+ * - Returns JSON responses
+ *
+ * Database:
+ * - Reads from games table
+ * - Uses users relationship for ownership tracking
+ *
+ * Notes:
+ * - Validates incoming request data
+ * - Uses prepared statements for database security
+ */ -->
+
 <?php
 
 require_once __DIR__ . "/../config/cors.php";

@@ -1,3 +1,23 @@
+<!-- /**
+ * vote.php (server/api/vote.php)
+ *
+ * REST API endpoint for submitting game votes.
+ *
+ * Responsibilities:
+ * - Validates user authentication
+ * - Checks daily voting restrictions
+ * - Creates new vote records
+ * - Tracks user actions
+ *
+ * Database:
+ * - votes table
+ * - user_actions table
+ *
+ * Notes:
+ * - Prevents duplicate daily voting
+ * - Returns JSON responses
+ */ -->
+
 <?php
 
 require_once __DIR__ . "/../config/cors.php";

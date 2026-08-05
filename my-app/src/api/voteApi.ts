@@ -1,3 +1,21 @@
+/**
+ * voteApi.ts (src/api/voteApi.ts)
+ *
+ * API client functions for voting operations.
+ *
+ * Responsibilities:
+ * - Sends vote creation requests
+ * - Sends vote removal requests
+ *
+ * Endpoints:
+ * - vote.php
+ * - remove-vote.php
+ *
+ * Notes:
+ * - Uses shared Axios configuration
+ * - Keeps HTTP logic separate from services
+ */
+
 import api from "./api";
 
 

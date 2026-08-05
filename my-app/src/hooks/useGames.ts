@@ -1,3 +1,35 @@
+/**
+ * useGames.ts (src/hooks/useGames.ts)
+ *
+ * Custom React hook responsible for managing game-related state and actions.
+ *
+ * Responsibilities:
+ * - Loads games from the backend API
+ * - Maintains game list state
+ * - Handles loading and error states
+ * - Creates new games
+ * - Removes games
+ * - Handles voting actions
+ * - Handles vote removal
+ * - Tracks the current user's selected vote
+ *
+ * State:
+ * - games: Current list of games
+ * - searchResults: Filtered game results
+ * - loading: API request state
+ * - error: Error messages
+ * - selectedVote: Current user's vote selection
+ *
+ * Dependencies:
+ * - Game services
+ * - Vote services
+ * - Authentication context
+ *
+ * Notes:
+ * - Contains application business logic for games
+ * - Components should consume this hook instead of calling APIs directly
+ */
+
 import { useEffect, useState } from "react";
 import type { Game } from "../types/Game";
 import { createGame, fetchGames, deleteGame, findGames } from "../services/GameService";

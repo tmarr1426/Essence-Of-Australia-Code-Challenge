@@ -1,3 +1,30 @@
+/**
+ * GameList.tsx (src/components/GameList.tsx)
+ *
+ * Main container component responsible for displaying the available games.
+ *
+ * Responsibilities:
+ * - Retrieves game data through the useGames custom hook
+ * - Displays loading and error states
+ * - Renders the Add Game form
+ * - Renders the Search Games component
+ * - Maps game data into individual GameCard components
+ * - Passes voting and removal functionality to child components
+ *
+ * Dependencies:
+ * - useGames hook for game state management
+ * - AddGameForm component
+ * - SearchGames component
+ * - GameCard component
+ *
+ * Props:
+ * - None
+ *
+ * Notes:
+ * - Acts as a presentation container
+ * - Game business logic is handled by useGames.ts
+ */
+
 import GameCard from "./GameCard";
 import AddGameForm from "./AddGameForm";
 import { useGames } from "../../hooks/useGames";

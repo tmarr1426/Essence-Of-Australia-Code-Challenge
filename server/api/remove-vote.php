@@ -1,3 +1,18 @@
+<!-- /**
+ * remove-vote.php (server/api/remove-vote.php)
+ *
+ * REST API endpoint for removing user votes.
+ *
+ * Responsibilities:
+ * - Validates vote ownership
+ * - Removes vote records
+ * - Updates vote tracking data
+ *
+ * Notes:
+ * - Users can only remove their own votes
+ * - Uses prepared SQL statements
+ */ -->
+
 <?php
 
 require_once __DIR__ . "/../config/cors.php";

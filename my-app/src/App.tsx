@@ -1,3 +1,24 @@
+/**
+ * App.tsx (src/App.tsx)
+ *
+ * Root component for the Game Voting application.
+ *
+ * Responsibilities:
+ * - Initializes the React application structure
+ * - Defines the main application layout
+ * - Handles global providers and application-level configuration
+ * - Loads the primary application views/components
+ *
+ * Dependencies:
+ * - React Router (if applicable)
+ * - Global context providers
+ * - Application components
+ *
+ * Notes:
+ * - This component should remain lightweight
+ * - Business logic should be handled through hooks, services, and components
+ */
+
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";

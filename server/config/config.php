@@ -1,3 +1,24 @@
+<!-- /**
+ * config.php (server/config/config.php)
+ *
+ * Central configuration file for backend constants.
+ *
+ * Responsibilities:
+ * - Stores database connection settings
+ * - Defines API configuration values
+ * - Provides reusable backend constants
+ *
+ * Configuration:
+ * - Database host
+ * - Database name
+ * - Database user
+ * - Database password
+ *
+ * Notes:
+ * - Sensitive values should be stored in environment variables
+ * - Should not be committed with production credentials
+ */ -->
+
 <?php
 
 define("API_BASE_URL", "https://codechallenge.essensedesigns.info");

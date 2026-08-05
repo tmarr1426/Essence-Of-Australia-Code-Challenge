@@ -1,3 +1,27 @@
+/**
+ * GameCard.tsx (src/components/GameCard.tsx)
+ *
+ * Displays an individual game entry and related user actions.
+ *
+ * Responsibilities:
+ * - Displays game information
+ * - Shows current vote count
+ * - Indicates whether the current user has voted
+ * - Allows users to vote for a game
+ * - Allows users to remove their vote
+ * - Allows removal of games when permitted
+ *
+ * Props:
+ * - game: Game object containing game information
+ * - onVote: Function used to submit a vote
+ * - onRemove: Function used to remove a game
+ * - selectedVote: Tracks the currently selected user vote
+ *
+ * Notes:
+ * - This component does not contain API logic
+ * - Actions are passed from parent components/hooks
+ */
+
 import type { Game } from "../../types/Game";
 
 

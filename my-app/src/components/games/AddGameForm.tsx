@@ -1,3 +1,22 @@
+/**
+ * AddGameForm.tsx (src/components/AddGameForm.tsx)
+ *
+ * Form component used to submit new game suggestions.
+ *
+ * Responsibilities:
+ * - Captures user input for a new game
+ * - Validates submitted data
+ * - Calls parent callback when submitting a new game
+ * - Clears form state after successful submission
+ *
+ * Props:
+ * - onAddGame: Callback function used to create a new game
+ *
+ * Notes:
+ * - Form state is locally managed
+ * - API communication is handled through service functions
+ */
+
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
